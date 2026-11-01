@@ -166,6 +166,6 @@ brews:
       email: goreleaserbot@qtunnel.example.com
     description: "A modular, multi-transport network tunnel with QUIC, HTTP/3, and MASQUE support"
     homepage: "https://github.com/qtunnel/qtunnel"
-    license: "MIT"
+    license: "All rights reserved; commercial use requires written authorization"
     test: |
       system "#{bin}/qtunnel-diagnose", "version"
