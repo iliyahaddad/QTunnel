@@ -37,7 +37,7 @@ QTunnel is a network tunneling engine designed with a clear separation between s
 ## Quick Start
 
 ### Prerequisites
-- Go 1.22+ (for building)
+- Go 1.23+ (for building)
 - TLS certificate (Let's Encrypt recommended for production)
 
 ### Build from Source
