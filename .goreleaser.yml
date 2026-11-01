@@ -163,7 +163,6 @@ brews:
       name: homebrew-qtunnel
     commit_author:
       name: goreleaserbot
-      email: goreleaserbot@qtunnel.example.com
     description: "A modular, multi-transport network tunnel with QUIC, HTTP/3, and MASQUE support"
     homepage: "https://github.com/qtunnel/qtunnel"
     license: "Proprietary"
