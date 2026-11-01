@@ -11,7 +11,7 @@
 
 ### 1.1 Reporting Channel
 
-Email: **security@qtunnel.example.com** (placeholder - update with real address)
+For any questions, feedback, or suggestions, please leave a comment or open a new issue on GitHub.
 
 Include:
 - Description of the vulnerability
@@ -226,7 +226,7 @@ See `docs/THREAT-MODEL.md` for full model. Key points:
 
 ## 11. Contact
 
-Security Team: security@qtunnel.example.com  
+For any questions, feedback, or suggestions, please leave a comment or open a new issue on GitHub.
 PGP Key: (to be published)
 
 ---
