@@ -4,7 +4,7 @@ Thank you for your interest in contributing to QTunnel! This document outlines t
 
 ## Code of Conduct
 
-This project adheres to a Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to conduct@qtunnel.example.com.
+This project adheres to a Code of Conduct. By participating, you are expected to uphold this code. For any questions, feedback, or suggestions, please leave a comment or open a new issue on GitHub.
 
 ## Getting Started
 
@@ -264,7 +264,7 @@ Releases are managed by maintainers:
 
 **DO NOT** report security vulnerabilities via public issues or PRs.
 
-Email: **security@qtunnel.example.com**
+For any questions, feedback, or suggestions, please leave a comment or open a new issue on GitHub.
 
 See [SECURITY.md](SECURITY.md) for details.
 
