@@ -258,6 +258,8 @@
 | 2026-10-25 | Native QUIC first | Simplest working foundation |
 | 2026-10-25 | MASQUE via quic-go libs | Standards-based, maintained |
 | 2026-10-25 | HTTP/2 fallback deferred | No library support; custom work |
+| 2026-10-25 | Proprietary Source-Available License |
+All rights reserved; commercial use requires written authorization
 
 ---
 
