@@ -266,7 +266,7 @@
 
 - **Issues:** GitHub Issues (bug reports, feature requests)
 - **Discussions:** GitHub Discussions (questions, ideas)
-- **Security:** security@qtunnel.example.com
+- **Security:** For any questions, feedback, or suggestions, please leave a comment or open a new issue on GitHub.
 - **Contributing:** See CONTRIBUTING.md
 
 ---
