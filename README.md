@@ -1,7 +1,6 @@
 # QTunnel
 
 [![Go Version](https://img.shields.io/badge/Go-1.22%2B-blue.svg)](https://golang.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Security](https://img.shields.io/badge/security-audited-blue.svg)](SECURITY.md)
 
@@ -106,17 +105,17 @@ curl -v http://httpbin.org/get --proxy http://127.0.0.1:8080
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Application Layer                         │
+│                    Application Layer                        │
 │  TCP Proxy  │  SOCKS5 (planned)  │  VPN/TUN (planned)       │
 ├─────────────────────────────────────────────────────────────┤
-│                    Session Layer                             │
-│  Auth  │  Stream Mux  │  Flow Control  │  Lifecycle        │
+│                    Session Layer                            │
+│  Auth  │  Stream Mux  │  Flow Control  │  Lifecycle         │
 ├─────────────────────────────────────────────────────────────┤
-│                    Frame Layer                               │
-│  CONNECT │ DATA │ CLOSE │ PING │ AUTH │ WINDOW_UPDATE      │
+│                    Frame Layer                              │
+│  CONNECT │ DATA │ CLOSE │ PING │ AUTH │ WINDOW_UPDATE       │
 ├─────────────────────────────────────────────────────────────┤
-│                    Carrier Layer                             │
-│  Native QUIC  │  HTTP/3 (MASQUE)  │  HTTP/2 (planned)      │
+│                    Carrier Layer                            │
+│  Native QUIC  │  HTTP/3 (MASQUE)  │  HTTP/2 (planned)       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -237,7 +236,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow, coding standard
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+see [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
