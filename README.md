@@ -1,6 +1,6 @@
 # QTunnel
 
-[![Go Version](https://img.shields.io/badge/Go-1.22%2B-blue.svg)](https://golang.org)
+[![Go Version](https://img.shields.io/badge/Go-1.23%2B-blue.svg)](https://golang.org)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Security](https://img.shields.io/badge/security-audited-blue.svg)](SECURITY.md)
 
@@ -123,12 +123,8 @@ curl -v http://httpbin.org/get --proxy http://127.0.0.1:8080
 
 | Document | Description |
 |----------|-------------|
-| [RESEARCH.md](docs/RESEARCH.md) | Upstream analysis, library capabilities |
-| [ADR-001](docs/ADR-001-transport-architecture.md) | Architecture decision record |
 | [THREAT-MODEL.md](docs/THREAT-MODEL.md) | Comprehensive threat model |
 | [PROTOCOL.md](docs/PROTOCOL.md) | Wire protocol specification |
-| [COMPATIBILITY.md](docs/COMPATIBILITY.md) | Standards compliance matrix |
-| [IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) | Milestone tracking |
 | [SECURITY.md](docs/SECURITY.md) | Security policy |
 | [TESTING.md](docs/TESTING.md) | Testing guide |
 | [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Common issues |
