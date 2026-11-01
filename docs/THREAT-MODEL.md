@@ -23,13 +23,13 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     UNTRUSTED NETWORK                        │
+│                     UNTRUSTED NETWORK                       │
 │  (Internet, Public WiFi, Corporate Network, ISP)            │
 └─────────────────────────┬───────────────────────────────────┘
                           │ TLS 1.3 / QUIC Crypto
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      QTUNNEL CLIENT                          │
+│                      QTUNNEL CLIENT                         │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
 │  │ Local Apps  │──│  QTunnel    │──│  Network Interface  │  │
 │  │ (Browser,   │  │  Client     │  │  (QUIC/UDP/TCP)     │  │
@@ -39,9 +39,9 @@
                           │ Authenticated Encrypted Tunnel
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      QTUNNEL SERVER                          │
+│                      QTUNNEL SERVER                         │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-│  │  Network    │──│  QTunnel    │──│  Upstream/Destination│  │
+│  │  Network    │──│  QTunnel    │──│ Upstream/Destination│  │
 │  │  Interface  │  │  Server     │  │  (Target Services)  │  │
 │  │  (QUIC/UDP) │  │  (Userland) │  │                     │  │
 │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
