@@ -13,12 +13,12 @@
          ┌─────────────┐
          │   E2E /     │  Few: Full stack, real network
          │ Integration │
-        ├─────────────┤
-        │  Component  │  Some: Carrier, proxy, auth
-        │ Integration │
-       ├─────────────┤
-       │    Unit     │  Many: Config, frame, session, ACL
-       └─────────────┘
+         ├─────────────┤
+         │  Component  │  Some: Carrier, proxy, auth
+         │ Integration │
+         ├─────────────┤
+         │    Unit     │  Many: Config, frame, session, ACL
+         └─────────────┘
 ```
 
 ### 1.2 Test Categories
