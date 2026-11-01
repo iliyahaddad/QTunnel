@@ -1,0 +1,41 @@
+role: "client"
+server:
+  addr: "127.0.0.1:4433"
+  sni: "localhost"
+  insecure_skip_verify: true
+auth:
+  token: "K3DjGWxdm1YfUnbx1U44wNtHEGwHbu+gx4U4FMYIzCI="
+transport:
+  type: "quic"
+  quic:
+    max_idle_timeout: "30s"
+    keep_alive: "10s"
+    handshake_timeout: "10s"
+    enable_0rtt: false
+    congestion_control: "cubic"
+    initial_congestion_window: 10
+    max_receive_buffer_size: "10MB"
+    max_incoming_streams: 100
+    max_incoming_uni_streams: 100
+proxy:
+  mode: "tcp"
+  listen: "127.0.0.1:8080"
+limits:
+  max_connections: 1000
+  max_streams_per_conn: 100
+  stream_buffer_size: "1MB"
+  conn_buffer_size: "10MB"
+  max_frame_size: "16KB"
+logging:
+  level: "info"
+  format: "console"
+  output: "stdout"
+observability:
+  metrics:
+    enabled: true
+    listen: "127.0.0.1:9090"
+    path: "/metrics"
+  health:
+    enabled: true
+    listen: "127.0.0.1:8081"
+    path: "/health"

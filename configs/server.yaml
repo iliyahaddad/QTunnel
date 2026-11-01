@@ -1,0 +1,32 @@
+role: "server"
+listen:
+  addr: ":4433"
+tls:
+  cert_file: "certs/server.crt"
+  key_file: "certs/server.key"
+auth:
+  tokens:
+    - "K3DjGWxdm1YfUnbx1U44wNtHEGwHbu+gx4U4FMYIzCI="
+proxy:
+  mode: "tcp"
+  allowlist: ["*"]
+  denylist: ["10.0.0.0/8", "127.0.0.0/8", "::1/128", "169.254.0.0/16", "224.0.0.0/4"]
+limits:
+  max_connections: 1000
+  max_streams_per_conn: 100
+  stream_buffer_size: "1MB"
+  conn_buffer_size: "10MB"
+  max_frame_size: "16KB"
+logging:
+  level: "info"
+  format: "console"
+  output: "stdout"
+observability:
+  metrics:
+    enabled: true
+    listen: "127.0.0.1:9090"
+    path: "/metrics"
+  health:
+    enabled: true
+    listen: "127.0.0.1:8081"
+    path: "/health"

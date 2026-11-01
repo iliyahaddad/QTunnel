@@ -1,0 +1,171 @@
+# .goreleaser.yml
+# Goreleaser configuration for QTunnel releases
+
+version: 2
+
+# Build configuration
+builds:
+  - id: qtunnel-server
+    main: ./cmd/qtunnel-server
+    binary: qtunnel-server
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.buildTime={{.Date}}
+      - -X main.gitCommit={{.Commit}}
+
+  - id: qtunnel-client
+    main: ./cmd/qtunnel-client
+    binary: qtunnel-client
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.buildTime={{.Date}}
+      - -X main.gitCommit={{.Commit}}
+
+  - id: qtunnel-diagnose
+    main: ./cmd/qtunnel-diagnose
+    binary: qtunnel-diagnose
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.buildTime={{.Date}}
+      - -X main.gitCommit={{.Commit}}
+
+# Archive configuration
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md
+      - configs/*.example.yaml
+
+# Checksums
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+# Release configuration
+release:
+  github:
+    owner: qtunnel
+    name: qtunnel
+  draft: true
+  prerelease: auto
+  name_template: '{{.ProjectName}} {{.Version}}'
+  body_template: |
+    ## Changes
+    {{ .Notes }}
+
+    ## Downloads
+    See assets below for platform-specific binaries.
+
+    ## Installation
+    ```bash
+    # Linux/macOS
+    curl -L https://github.com/qtunnel/qtunnel/releases/download/{{.Version}}/qtunnel_{{.Version}}_{{.Os}}_{{.Arch}}.tar.gz | tar xz
+    sudo mv qtunnel-server /usr/local/bin/
+    sudo mv qtunnel-client /usr/local/bin/
+    sudo mv qtunnel-diagnose /usr/local/bin/
+    ```
+
+    ## Verification
+    Verify checksums:
+    ```bash
+    sha256sum -c checksums.txt
+    ```
+
+    ## Documentation
+    See [README](https://github.com/qtunnel/qtunnel/blob/main/README.md) for configuration and usage.
+
+# Signing (requires cosign)
+signs:
+  - artifacts: checksums.txt
+    args:
+      - --yes
+      - --key=${COSIGN_PRIVATE_KEY}
+
+# Changelog
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - Merge pull request
+      - Merge branch
+
+# SBOM
+sboms:
+  - artifacts: archive
+    format: spdx-json
+
+# Docker (optional)
+dockers:
+  - image_templates:
+      - "ghcr.io/qtunnel/qtunnel-server:{{ .Version }}"
+      - "ghcr.io/qtunnel/qtunnel-server:latest"
+    dockerfile: Dockerfile.server
+    build_flag_templates:
+      - "--platform=linux/amd64,linux/arm64"
+  - image_templates:
+      - "ghcr.io/qtunnel/qtunnel-client:{{ .Version }}"
+      - "ghcr.io/qtunnel/qtunnel-client:latest"
+    dockerfile: Dockerfile.client
+    build_flag_templates:
+      - "--platform=linux/amd64,linux/arm64"
+
+# Homebrew (optional)
+brews:
+  - name: qtunnel
+    repository:
+      owner: qtunnel
+      name: homebrew-qtunnel
+    commit_author:
+      name: goreleaserbot
+      email: goreleaserbot@qtunnel.example.com
+    description: "A modular, multi-transport network tunnel with QUIC, HTTP/3, and MASQUE support"
+    homepage: "https://github.com/qtunnel/qtunnel"
+    license: "MIT"
+    test: |
+      system "#{bin}/qtunnel-diagnose", "version"

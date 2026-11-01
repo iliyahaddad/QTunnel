@@ -1,0 +1,30 @@
+[Unit]
+Description=QTunnel Server
+Documentation=https://github.com/qtunnel/qtunnel
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=qtunnel
+Group=qtunnel
+ExecStart=/usr/local/bin/qtunnel-server -c /etc/qtunnel/server.yaml
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+LimitNPROC=65536
+# Capabilities for TUN device (VPN mode)
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/etc/qtunnel /var/log/qtunnel
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target

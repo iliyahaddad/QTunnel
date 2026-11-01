@@ -1,0 +1,59 @@
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of go coverage tool
+*.out
+coverage.html
+
+# Dependency directories
+vendor/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.log
+*.tmp
+*.temp
+
+# Certificates and keys (generated)
+testdata/certs/*.key
+testdata/certs/*.crt
+!testdata/certs/.gitkeep
+
+# Configuration with secrets
+configs/*.local.yaml
+configs/*.secret.yaml
+
+# pprof profiles
+*.pprof
+
+# qlog files
+*.qlog
+qlogs/
+
+# Release artifacts
+dist/
+release/
+
+# Go workspace
+go.work

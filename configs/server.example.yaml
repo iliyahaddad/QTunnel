@@ -1,0 +1,225 @@
+# QTunnel Server Configuration Example
+# Copy to server.yaml and modify for your environment
+
+# Role: "client" or "server"
+role: "server"
+
+# Listen configuration
+listen:
+  # Address to bind (host:port, empty host = all interfaces)
+  addr: ":4433"
+  # SO_REUSEPORT (Linux/BSD) for better multi-core scaling
+  reuse_port: true
+  # TCP fast open (Linux 3.7+)
+  tcp_fast_open: false
+
+# TLS Configuration
+tls:
+  # Certificate file (PEM format)
+  cert_file: "server.crt"
+  # Private key file (PEM format)
+  key_file: "server.key"
+  # Minimum TLS version (1.3 only for QUIC)
+  min_version: "1.3"
+  # Cipher suites (TLS 1.3 only uses these)
+  # cipher_suites: ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"]
+  # Client certificate verification (for mTLS)
+  # client_ca_file: "ca.crt"
+  # client_auth: "RequireAndVerifyClientCert"
+
+# Authentication
+auth:
+  # List of valid base64-encoded 32-byte tokens
+  # At least one token required
+  tokens:
+    - "REPLACE_WITH_YOUR_BASE64_TOKEN"
+  # Alternative: token file (one token per line, watched for changes on SIGHUP)
+  # token_file: "tokens.txt"
+  # Token rotation: add new tokens to list/file, reload with SIGHUP,
+  # update clients, then remove old tokens
+
+# Transport configuration
+transport:
+  # Carrier type: "quic" (native QUIC) or "http3" (HTTP/3 with MASQUE)
+  type: "quic"
+  
+  # QUIC-specific settings
+  quic:
+    # Maximum idle timeout before connection closes
+    max_idle_timeout: "30s"
+    # Keep-alive interval (QUIC PING frames)
+    keep_alive: "10s"
+    # Handshake timeout
+    handshake_timeout: "10s"
+    # Enable 0-RTT (disabled by default)
+    enable_0rtt: false
+    # Congestion control: "cubic" or "bbr"
+    congestion_control: "cubic"
+    # Initial congestion window (packets)
+    initial_congestion_window: 10
+    # Max receive buffer size (connection-level)
+    max_receive_buffer_size: "10MB"
+    # Max incoming bidirectional streams
+    max_incoming_streams: 100
+    # Max incoming unidirectional streams
+    max_incoming_uni_streams: 100
+    # Disable path migration (for debugging)
+    disable_path_migration: false
+
+  # HTTP/3-specific settings (for MASQUE)
+  http3:
+    max_idle_timeout: "30s"
+    keep_alive: "10s"
+    handshake_timeout: "10s"
+    enable_0rtt: false
+    max_receive_buffer_size: "10MB"
+    max_incoming_streams: 100
+    max_incoming_uni_streams: 100
+    disable_path_migration: false
+
+  # HTTP/2-specific settings (fallback)
+  http2:
+    max_idle_timeout: "30s"
+    keep_alive: "10s"
+    handshake_timeout: "10s"
+    max_receive_buffer_size: "10MB"
+    max_concurrent_streams: 100
+    disable_path_migration: false
+
+  # MASQUE-specific settings (for UDP/IP tunneling)
+  masque:
+    # CONNECT-UDP configuration (RFC 9298)
+    connect_udp:
+      # URI template for CONNECT-UDP requests
+      # Default: https://{host}/.well-known/masque/udp/{target_host}/{target_port}/
+      uri_template: ""
+      # Maximum datagram size
+      max_datagram_size: 65527
+
+    # CONNECT-IP configuration (RFC 9484)
+    connect_ip:
+      # URI template for CONNECT-IP requests
+      # Default: https://{host}/.well-known/masque/ip/{target}/{ipproto}/
+      uri_template: ""
+
+    # VPN configuration
+    vpn:
+      # TUN device settings
+      tun:
+        name: "qtunnel0"
+        mtu: 1280
+        addresses:
+          - "10.100.0.1/24"
+          - "fd00:100::1/64"
+        routes:
+          - "0.0.0.0/0"
+          - "::/0"
+        dns_servers:
+          - "1.1.1.1"
+          - "8.8.8.8"
+      # Kill switch to prevent leaks
+      kill_switch: true
+      # Split tunneling (only route specified subnets)
+      split_tunnel: false
+
+# Proxy configuration
+proxy:
+  # Mode: "tcp" (TCP proxy)
+  mode: "tcp"
+  # Destination allowlist (CIDR, hostname, or "*" for all)
+  # Evaluated in order: first match wins
+  allowlist:
+    - "*"  # Allow all (replace with specific destinations in production)
+  # Destination denylist (CIDR, hostname)
+  # Always evaluated, even if allowlist matches
+  denylist:
+    - "10.0.0.0/8"        # RFC1918 private
+    - "172.16.0.0/12"     # RFC1918 private
+    - "192.168.0.0/16"    # RFC1918 private
+    - "127.0.0.0/8"       # Loopback
+    - "::1"               # IPv6 loopback
+    - "169.254.0.0/16"    # Link-local
+    - "224.0.0.0/4"       # Multicast
+    - "255.255.255.255"   # Broadcast
+  # Connection timeout to target
+  connect_timeout: "10s"
+  # Idle timeout for proxied connections
+  idle_timeout: "5m"
+
+# Resource limits
+limits:
+  # Maximum concurrent client connections
+  max_connections: 1000
+  # Maximum streams per connection
+  max_streams_per_conn: 100
+  # Per-stream receive buffer size
+  stream_buffer_size: "1MB"
+  # Connection-level receive buffer size
+  conn_buffer_size: "10MB"
+  # Maximum frame size
+  max_frame_size: "16KB"
+  # Rate limiting (requests per second per client IP)
+  # rate_limit: 100
+
+# Logging configuration
+logging:
+  # Level: "debug", "info", "warn", "error", "fatal"
+  level: "info"
+  # Format: "json" or "console"
+  format: "json"
+  # Output: "stdout", "stderr", or file path
+  output: "stdout"
+  # Include caller info (file:line)
+  caller: false
+
+# Observability
+observability:
+  # Prometheus metrics endpoint
+  metrics:
+    enabled: true
+    listen: "127.0.0.1:9090"
+    path: "/metrics"
+  # Health check endpoint
+  health:
+    enabled: true
+    listen: "127.0.0.1:8081"
+    path: "/health"
+  # pprof profiling endpoint
+  pprof:
+    enabled: false
+    listen: "127.0.0.1:6060"
+  # qlog directory (for QUIC debugging)
+  # qlog:
+  #   enabled: false
+  #   dir: "./qlogs"
+
+# Graceful shutdown
+shutdown:
+  # Grace period for draining connections (SIGTERM)
+  grace_period: "30s"
+  # Force shutdown after (SIGKILL equivalent)
+  force_after: "60s"
+
+# Advanced: Session resumption (future)
+# session:
+#   resumption:
+#     enabled: false
+#     ticket_lifetime: "1h"
+#     ticket_key_rotation: "1h"
+
+# Advanced: VPN mode (future, Phase 2+)
+# vpn:
+#   enabled: false
+#   tun_device: "qtunnel0"
+#   address_pool:
+#     - "10.100.0.0/16"
+#     - "fd00:100::/64"
+#   dns:
+#     mode: "push"
+#     servers:
+#       - "1.1.1.1"
+#       - "8.8.8.8"
+#   routes:
+#     - "0.0.0.0/0"
+#     - "::/0"
+#   kill_switch: true

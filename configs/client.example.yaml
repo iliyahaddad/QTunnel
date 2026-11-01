@@ -1,0 +1,169 @@
+# QTunnel Client Configuration Example
+# Copy to client.yaml and modify for your environment
+
+# Role: "client" or "server"
+role: "client"
+
+# Server connection settings
+server:
+  # Server address (host:port)
+  addr: "your-server.example.com:4433"
+  # SNI for TLS verification (usually same as host)
+  sni: "your-server.example.com"
+  # DANGER: Never set to true in production!
+  # Only for development with self-signed certs
+  insecure_skip_verify: false
+
+# Authentication
+auth:
+  # Base64-encoded 32-byte token (generate with: qtunnel-diagnose secret)
+  # Must match one of the server's tokens
+  token: "REPLACE_WITH_YOUR_BASE64_TOKEN"
+  # Alternative: token file (one token per line, watched for changes)
+  # token_file: "tokens.txt"
+
+# Transport configuration
+transport:
+  # Carrier type: "quic" (native QUIC) or "http3" (HTTP/3 with MASQUE)
+  type: "quic"
+  
+  # QUIC-specific settings
+  quic:
+    # Maximum idle timeout before connection closes
+    max_idle_timeout: "30s"
+    # Keep-alive interval (QUIC PING frames)
+    keep_alive: "10s"
+    # Handshake timeout
+    handshake_timeout: "10s"
+    # Enable 0-RTT (disabled by default for replay protection)
+    enable_0rtt: false
+    # Congestion control: "cubic" (default) or "bbr"
+    congestion_control: "cubic"
+    # Initial congestion window (packets)
+    initial_congestion_window: 10
+    # Max receive buffer size (connection-level)
+    max_receive_buffer_size: "10MB"
+    # Max incoming streams (bidirectional)
+    max_incoming_streams: 100
+    # Max incoming unidirectional streams
+    max_incoming_uni_streams: 100
+
+  # HTTP/3-specific settings (for MASQUE)
+  http3:
+    max_idle_timeout: "30s"
+    keep_alive: "10s"
+    handshake_timeout: "10s"
+    enable_0rtt: false
+    max_receive_buffer_size: "10MB"
+    max_incoming_streams: 100
+    max_incoming_uni_streams: 100
+    disable_path_migration: false
+
+  # HTTP/2-specific settings (fallback)
+  http2:
+    max_idle_timeout: "30s"
+    keep_alive: "10s"
+    handshake_timeout: "10s"
+    max_receive_buffer_size: "10MB"
+    max_concurrent_streams: 100
+    disable_path_migration: false
+
+  # MASQUE-specific settings (for UDP/IP tunneling)
+  masque:
+    # CONNECT-UDP configuration (RFC 9298)
+    connect_udp:
+      # URI template for CONNECT-UDP requests
+      # Default: https://{host}/.well-known/masque/udp/{target_host}/{target_port}/
+      uri_template: ""
+      # Maximum datagram size
+      max_datagram_size: 65527
+
+    # CONNECT-IP configuration (RFC 9484)
+    connect_ip:
+      # URI template for CONNECT-IP requests
+      # Default: https://{host}/.well-known/masque/ip/{target}/{ipproto}/
+      uri_template: ""
+
+    # VPN configuration
+    vpn:
+      # TUN device settings
+      tun:
+        name: "qtunnel0"
+        mtu: 1280
+        addresses:
+          - "10.100.0.1/24"
+          - "fd00:100::1/64"
+        routes:
+          - "0.0.0.0/0"
+          - "::/0"
+        dns_servers:
+          - "1.1.1.1"
+          - "8.8.8.8"
+      # Kill switch to prevent leaks
+      kill_switch: true
+      # Split tunneling (only route specified subnets)
+      split_tunnel: false
+
+# Proxy configuration
+proxy:
+  # Mode: "tcp" (TCP proxy) or "socks5" (SOCKS5 proxy)
+  mode: "tcp"
+  # Local listen address for proxy
+  listen: "127.0.0.1:8080"
+  # For SOCKS5: authentication (optional)
+  # socks5:
+  #   username: "user"
+  #   password: "pass"
+
+# Resource limits
+limits:
+  # Maximum concurrent connections to server
+  max_connections: 1000
+  # Maximum streams per connection
+  max_streams_per_conn: 100
+  # Per-stream receive buffer size
+  stream_buffer_size: "1MB"
+  # Connection-level receive buffer size
+  conn_buffer_size: "10MB"
+  # Maximum frame size
+  max_frame_size: "16KB"
+
+# Logging configuration
+logging:
+  # Level: "debug", "info", "warn", "error", "fatal"
+  level: "info"
+  # Format: "json" or "console"
+  format: "console"
+  # Output: "stdout", "stderr", or file path
+  output: "stderr"
+  # Include caller info (file:line)
+  caller: false
+
+# Observability
+observability:
+  # Prometheus metrics endpoint
+  metrics:
+    enabled: true
+    listen: "127.0.0.1:9090"
+    path: "/metrics"
+  # Health check endpoint
+  health:
+    enabled: true
+    listen: "127.0.0.1:8081"
+    path: "/health"
+  # pprof profiling endpoint
+  pprof:
+    enabled: false
+    listen: "127.0.0.1:6060"
+
+# Advanced: Session resumption (future)
+# session:
+#   resumption:
+#     enabled: false
+#     ticket_lifetime: "1h"
+
+# Advanced: Traffic shaping (future)
+# shaping:
+#   enabled: false
+#   padding: false
+#   constant_rate: "0"

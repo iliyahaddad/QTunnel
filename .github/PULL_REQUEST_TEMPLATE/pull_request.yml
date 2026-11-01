@@ -1,0 +1,46 @@
+---
+name: Pull Request
+description: Submit a pull request for review
+title: "[PR]: "
+labels: []
+assignees: []
+---
+
+## Description
+Brief description of changes.
+
+## Related Issue
+Closes #XXX
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+- [ ] Refactoring
+- [ ] Performance improvement
+- [ ] Security fix
+
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Manual testing performed (describe below)
+
+### Manual Testing Performed
+Describe what you tested manually:
+- 
+
+## Checklist
+- [ ] Code follows style guidelines (`make fmt`, `make lint`)
+- [ ] Self-review completed
+- [ ] Comments added for complex logic
+- [ ] Documentation updated (README, CHANGELOG, etc.)
+- [ ] No new warnings from linter (`make lint`)
+- [ ] Tests pass (`make test`)
+- [ ] Race detector clean (`make test-race`)
+
+## Screenshots (if applicable)
+Add screenshots or terminal output here.
+
+## Additional Notes
+Any additional information for reviewers.

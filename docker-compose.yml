@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # QTunnel Server
+  qtunnel-server:
+    build:
+      context: ..
+      dockerfile: Dockerfile.server
+    container_name: qtunnel-server
+    ports:
+      - "4433:4433/udp"
+      - "4433:4433/tcp"
+    volumes:
+      - ./configs/server.yaml:/etc/qtunnel/server.yaml:ro
+      - ./certs:/etc/qtunnel/certs:ro
+      - ./logs:/var/log/qtunnel
+    environment:
+      - QTUNNEL_LOG_LEVEL=info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "qtunnel-diagnose", "ping", "-c", "/etc/qtunnel/server.yaml"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - qtunnel-network
+
+  # QTunnel Client (for testing)
+  qtunnel-client:
+    build:
+      context: ..
+      dockerfile: Dockerfile.client
+    container_name: qtunnel-client
+    ports:
+      - "8080:8080"
+      - "1080:1080"
+    volumes:
+      - ./configs/client.yaml:/etc/qtunnel/client.yaml:ro
+    environment:
+      - QTUNNEL_LOG_LEVEL=info
+    depends_on:
+      qtunnel-server:
+        condition: service_healthy
+    networks:
+      - qtunnel-network
+
+  # Prometheus for metrics
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    container_name: qtunnel-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - qtunnel-network
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:10.1.0
+    container_name: qtunnel-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - prometheus
+    networks:
+      - qtunnel-network
+
+networks:
+  qtunnel-network:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+  grafana-data:

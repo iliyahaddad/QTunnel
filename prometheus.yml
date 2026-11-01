@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+rule_files: []
+
+scrape_configs:
+  # QTunnel server metrics
+  - job_name: 'qtunnel-server'
+    static_configs:
+      - targets: ['qtunnel-server:9090']
+    metrics_path: /metrics
+    scrape_interval: 10s
+
+  # QTunnel client metrics
+  - job_name: 'qtunnel-client'
+    static_configs:
+      - targets: ['qtunnel-client:9090']
+    metrics_path: /metrics
+    scrape_interval: 10s
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
