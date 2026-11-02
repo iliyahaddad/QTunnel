@@ -13,7 +13,7 @@ This project adheres to a Code of Conduct. By participating, you are expected to
 1. **Fork** the repository
 2. **Clone** your fork:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/qtunnel
+   git clone https://github.com/iliyahaddad/qtunnel
    cd qtunnel
    ```
 3. **Install dependencies:**
@@ -270,8 +270,8 @@ See [SECURITY.md](SECURITY.md) for details.
 
 ## Questions?
 
-- Open a [GitHub Discussion](https://github.com/qtunnel/qtunnel/discussions)
-- Check existing [issues](https://github.com/qtunnel/qtunnel/issues)
+- Open a [GitHub Discussion](https://github.com/iliyahaddad/qtunnel/discussions)
+- Check existing [issues](https://github.com/iliyahaddad/qtunnel/issues)
 - Review [documentation](docs/)
 
 ---
