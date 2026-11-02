@@ -102,7 +102,7 @@ release:
     ## Installation
     ```bash
     # Linux/macOS
-    curl -L https://github.com/qtunnel/qtunnel/releases/download/{{.Version}}/qtunnel_{{.Version}}_{{.Os}}_{{.Arch}}.tar.gz | tar xz
+    curl -L https://github.com/iliyahaddad/qtunnel/releases/download/{{.Version}}/qtunnel_{{.Version}}_{{.Os}}_{{.Arch}}.tar.gz | tar xz
     sudo mv qtunnel-server /usr/local/bin/
     sudo mv qtunnel-client /usr/local/bin/
     sudo mv qtunnel-diagnose /usr/local/bin/
@@ -115,7 +115,7 @@ release:
     ```
 
     ## Documentation
-    See [README](https://github.com/qtunnel/qtunnel/blob/main/README.md) for configuration and usage.
+    See [README](https://github.com/iliyahaddad/qtunnel/blob/main/README.md) for configuration and usage.
 
 # Signing (requires cosign)
 signs:
@@ -164,7 +164,7 @@ brews:
     commit_author:
       name: goreleaserbot
     description: "A modular, multi-transport network tunnel with QUIC, HTTP/3, and MASQUE support"
-    homepage: "https://github.com/qtunnel/qtunnel"
+    homepage: "https://github.com/iliyahaddad/qtunnel"
     license: "Proprietary"
     test: |
       system "#{bin}/qtunnel-diagnose", "version"
