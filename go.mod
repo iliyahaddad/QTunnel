@@ -1,4 +1,4 @@
-module github.com/qtunnel/qtunnel
+module github.com/iliyahaddad/qtunnel
 
 go 1.23
 
