@@ -1,6 +1,6 @@
 [Unit]
 Description=QTunnel Server
-Documentation=https://github.com/qtunnel/qtunnel
+Documentation=https://github.com/iliyahaddad/qtunnel
 After=network.target
 Wants=network.target
 
