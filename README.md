@@ -42,7 +42,7 @@ QTunnel is a network tunneling engine designed with a clear separation between s
 
 ### Build from Source
 ```bash
-git clone https://github.com/qtunnel/qtunnel
+git clone https://github.com/iliyahaddad/qtunnel
 cd qtunnel
 make build
 make certs  # Generates test certificates
